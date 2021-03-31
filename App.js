@@ -1,5 +1,5 @@
-import React, { Component } from "react";
-import { StyleSheet, Text, TouchableOpacity, View } from "react-native";
+import React, { Component, useState } from "react";
+import { StyleSheet, Text, TouchableOpacity, View, AsyncStorage } from "react-native";
 
 
 class App extends Component {
@@ -11,6 +11,14 @@ class App extends Component {
         click: 1,
     };
     this.funAutoClick()
+  }
+
+  save = async() => {
+    try {
+      await AsyncStorage.setItem('money', money)
+    } catch (err) {
+      alert(err)
+    }
   }
 
   onClick = () => {
@@ -60,7 +68,7 @@ class App extends Component {
             <Text style={styles.info__item}>{this.state.click} за клик</Text>
             <Text style={styles.info__item}>{this.state.speed} в секунду</Text>
           </View>
-          <View>
+          <View style={styles.btnContainer}>
             <TouchableOpacity style={styles.btn} onPress={this.appClick}>
               <Text style={styles.btn__text}>Увеличить клик</Text>
             </TouchableOpacity>
@@ -86,26 +94,29 @@ const styles = StyleSheet.create({
       paddingBottom: 40,
     },
     info: {
-      width: 300,
-      height: 130,
+      height: 150,
       padding: 20,
+      marginHorizontal: 36,
+      alignSelf: 'stretch',
       justifyContent: 'space-between',
       backgroundColor: '#fff',
       borderRadius: 10,
     },  
     info__item: {
-      fontSize: 18,
+      fontSize: 20,
       color: '#22364d'
+    },
+    btnContainer: {
+      marginHorizontal: 36,
+      alignSelf: 'stretch',
     },  
     btn: {
-      width: 300,
-      height: 70,
+      height: 68,
       marginTop: 20,
-      justifyContent: 'center',
       alignItems: 'center',
+      justifyContent: 'center',
       backgroundColor: '#4798f5',
       borderRadius: 10,
-      overlayColor: '#4798f5',
     },
     btn__text: {
       fontSize: 18,
